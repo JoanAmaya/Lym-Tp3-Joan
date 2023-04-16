@@ -1,0 +1,343 @@
+using gold.structures.automaton.*
+using gold.visualization.automaton.*
+
+//Joan Amaya 202011318
+//Definicion Tokens para cada palabra
+//begin token = b
+//if token= i
+// then token = t
+// end token = e
+//function token = f 
+//else token = r
+// : token = : (es decir : es el mismo)
+// = token = = (es decir el igual es el mismo)
+// El token de '(' o de ')' es el mismo 
+//El Token de +,-,/,*,mod = a
+// ; Token  = ;
+// Token while = w
+// tipo (String, Integer)= y
+// Comparadores (><)=c
+//result token =p
+
+procedure main(args:String[]) begin
+	
+	Q := {"P1","P2","P3","P4","P5","Err1","A1", "B1","B2","B3","B4","B11","B22","B33","B44","I1","T1","T2","T3","E1","E2","F1","F2","F3","F4","F5","F6","F7","R1","R2","W1","M1","M2","C1","C2","C3","C4","D1","Y1","Y2","Y3","Y4","Y5","S1","S2","S3","S4","S5","J1","J2","Err"}
+	B := ('a'‥'z')∪('0'‥'9')∪{'(',')',':','=','+','-','/','*',';',',','<','>',' ','\n'}
+	T := {'b','i','t','e','f','r','(',')',':','=',';','a',',','w','d','y','c','v','p'}
+	q := "A1"
+	F := {"A1","Err1"}
+	
+	A := GDeterministicTransducer(Q, B, T, q, F, m, g, h)
+	GAutomataFrame.show(A)
+end
+
+function m(q, p) begin
+	//begin token = b
+	if q ="A1" && p='b'   then
+		return "B1"
+	elseif q="B1" && p='e' then
+		return "B2"
+	elseif q="B2" && p='g' then
+		return "B3"
+	elseif q="B3" && p='i' then
+		return "B4"
+	elseif q="B4" && p='n' then
+		return "A1"
+	
+	//if token= i
+	elseif q= "A1" && p='i' then
+		return "I1"
+	elseif q= "I1" && p='f' then
+		return "A1"	
+	// then token = t
+   	elseif q= "A1" && p='t' then
+		return "T1"
+   	elseif q= "T1" && p='h' then
+		return "T2"
+   	elseif q= "T2" && p='e' then
+		return "T3"
+   	elseif q= "T3" && p='n' then
+		return "A1"		
+	
+	// end token = e
+	elseif q= "A1" && p='e' then
+		return "E1"
+	elseif q= "E1" && p='n' then
+		return "E2"
+	elseif q= "E2" && p='d' then
+		return "A1"		
+		
+	//function token = f 
+	elseif q= "A1" && p='f' then
+		return "F1"
+	elseif q= "F1" && p='u' then
+		return "F2"
+	elseif q= "F2" && p='n' then
+		return "F3"
+	elseif q= "F3" && p='c' then
+		return "F4"
+	elseif q= "F4" && p='t' then
+		return "F5"
+	elseif q= "F5" && p='i' then
+		return "F6"
+	elseif q= "F6" && p='o' then
+		return "F7"
+	elseif q= "F7" && p='n' then
+		return "A1"
+	//else token = r
+	elseif q= "E1" && p='l' then
+		return "R1"
+	elseif q= "R1" && p='s' then
+		return "R2"
+	elseif q= "R2" && p='e' then
+		return "A1"	
+	// : token = :
+	// = token = =
+	elseif q= "A1" && p=':' then
+		return "A1"
+	elseif q= "A1" && p='=' then
+		return "A1"	
+	
+	
+	//Token parentesis permanecen invariantes
+	elseif q="A1" && p='(' then
+		return "A1"
+	elseif q="A1" && p=')' then
+		return "A1"	
+	//Token +,-,/,*,mod=a
+	elseif q="A1" && p='+' then
+		return "A1"
+	elseif q="A1" && p='-' then
+		return "A1"	
+	elseif q="A1" && p='/' then
+		return "A1"	
+	elseif q="A1" && p='*' then
+		return "A1"
+	elseif q="A1" && p='m' then
+		return "M1"
+	elseif q="M1" && p='o' then
+		return "M2"
+	elseif q="M2" && p='d' then
+		return "A1"		
+	// Token ; = ;
+	elseif  q="A1" && p=';' then
+		return "A1"
+	elseif  q="A1" && p=',' then
+		return "A1"	
+	// Token while = w
+	elseif  q="A1" && p='w' then
+		return "C1"
+	elseif  q="C1" && p='h' then
+		return "C2"
+	elseif  q="C2" && p='i' then
+		return "C3"
+	elseif  q="C3" && p='l' then
+		return "C4"
+	elseif  q="C4" && p='e' then
+		return "A1"	
+	elseif  q="A1" && p='d' then
+		return "D1"
+	elseif  q="D1" && p='o' then
+		return "A1"	
+	// tipo (String, Integer)= y
+	elseif  q="I1" && p='n' then
+		return "Y1"
+	elseif  q="Y1" && p='t' then
+		return "Y2"
+	elseif  q="Y2" && p='e' then
+		return "Y3"
+	elseif  q="Y3" && p='g' then
+		return "Y4"
+	elseif  q="Y4" && p='e' then
+		return "Y5"
+	elseif  q="Y5" && p='r' then
+		return "A1"
+	
+	
+	//String
+	elseif  q="A1" && p='s' then
+		return "S1"
+	elseif  q="S1" && p='t' then
+		return "S2"
+	elseif  q="S2" && p='r' then
+		return "S3"
+	elseif  q="S3" && p='i' then
+		return "S4"
+	elseif  q="S4" && p='n' then
+		return "S5"
+	elseif  q="S5" && p='g' then
+		return "A1"
+	// Comparadores (><)=c
+	elseif q="A1" && (p='<' || p='>') then
+		return "A1"
+	//espacio y enters ignorados
+	elseif q= "A1" && (p=' ' || p='\n') then
+		return "A1"
+	//result token =p
+	elseif q="A1" &&  p='r' then
+		return "P1"
+	elseif q="P1" &&  p='e' then
+		return "P2"
+	elseif q="P2" &&  p='s' then
+		return "P3"
+	elseif q="P3" &&  p='u' then
+		return "P4"	
+	elseif q="P4" &&  p='l' then
+		return "P5"
+	elseif q="P5" &&  p='t' then
+		return "A1"	
+		
+		
+   //ESTADOS VARIABLE 
+   //begin err
+   	elseif q ="Err1" && p='b'   then
+		return "B1"
+	elseif q="Err1" &&  p='r' then
+		return "P1"	
+	elseif q= "Err1" && p='i' then
+		return "I1"
+	elseif q= "Err1" && p='t' then
+		return "T1"	
+	elseif q= "Err1" && p='e' then
+		return "E1"	
+	elseif q= "Err1" && p='f' then
+		return "F1"	
+	elseif q= "Err1" && p=':' then
+		return "A1"
+	elseif q= "Err1" && p='=' then
+		return "A1"	
+	elseif q="Err1" && p='(' then
+		return "A1"
+	elseif q="Err1" && p=')' then
+		return "A1"	
+	elseif q="Err1" && p='+' then
+		return "A1"
+	elseif q="Err1" && p='-' then
+		return "A1"	
+	elseif q="Err1" && p='/' then
+		return "A1"	
+	elseif q="Err1" && p='*' then
+		return "A1"
+	elseif q="Err1" && p='m' then
+		return "M1"	
+	elseif  q="Err1" && p=';' then
+		return "A1"
+	elseif  q="Err1" && p =',' then
+		return "A1"	
+	elseif  q="Err1" && p='w' then
+		return "C1"	
+	elseif  q="Err1" && p='s' then
+		return "S1"	
+	elseif q="Err1" && (p='<' || p='>') then
+		return "A1"	
+	elseif q= "Err1" && (p=' ' || p='\n') then
+		return "A1"	
+	else
+		return "Err1"
+		
+	end 
+end	
+	
+function g(q) begin
+	if q="Err1" then
+		return 'v'
+	else	
+		return λ
+	end	
+end
+
+
+function h(q, p) begin
+	if q = "B4" && p='n' then
+		return 'b'
+	elseif q= "I1" && p='f' then
+		return 'i'
+	elseif q= "T3" && p='n' then
+		return 't'
+	elseif q= "R2" && p='e' then
+		return 'r'
+	elseif q= "E2" && p='d' then
+		return 'e'
+	elseif q= "F7" && p='n' then
+		return 'f'
+	elseif q="A1" && p='(' then
+		return '('
+	elseif q="A1" && p=')' then
+		return ')'
+	elseif q= "A1" && p=':' then	
+		return ':'
+	elseif q= "A1" && p='=' then
+		return '='
+	elseif q= "A1" && p='+' then
+		return 'a'
+	elseif q= "A1" && p='-' then
+		return 'a'
+	elseif q= "A1" && p='/' then
+		return 'a'		
+	elseif q= "A1" && p='*' then
+		return 'a'	
+	elseif q= "A1" && p=';' then
+		return ';'
+	elseif q="M2" && p='d' then
+		return 'a'			
+    elseif  q="A1" && p=',' then		
+		return ','
+	elseif  q="C4" && p='e' then
+		return 'w'		
+	elseif  q="D1" && p='o' then
+		return 'd'		
+	elseif  q="Y5" && p='r' then
+		return 'y'
+	elseif  q="S5" && p='g' then
+		return 'y'	
+	elseif q="A1" && (p='<' || p='>') then
+		return 'c'
+	elseif q= "A1" && (p=' ' || p='\n') then
+		return λ
+	elseif q="P5" &&  p='t' then
+		return 'p'	
+	//Estados variable
+	elseif q= "Err1" && p='b' then
+		return 'v'
+	elseif q= "Err1" && p='i' then
+		return 'v'
+	elseif q= "Err1" && p='t' then
+		return 'v'	
+	elseif q= "Err1" && p='e' then
+		return 'v'	
+	elseif q= "Err1" && p='f' then
+		return 'v'	
+	elseif q= "Err1" && p=':' then
+		return ':'
+	elseif q= "Err1" && p='=' then
+		return '='	
+	elseif q="Err1" && p='(' then
+		return '('
+	elseif q="Err1" && p=')' then
+		return ')'	
+	elseif q="Err1" && p='+' then
+		return 'a'
+	elseif q="Err1" && p='-' then
+		return 'a'	
+	elseif q="Err1" && p='/' then
+		return 'a'	
+	elseif q="Err1" && p='*' then
+		return 'a'
+	elseif q="Err1" && p='m' then
+		return 'v'	
+	elseif  q="Err1" && p=';' then
+		return ';'
+	elseif  q="Err1" && p=',' then
+		return ','	
+	elseif  q="Err1" && p='w' then
+		return 'v'	
+	elseif  q="Err1" && p='s' then
+		return 'v'	
+	elseif q="Err1" && (p='<' || p='>') then
+		return 'c'	
+
+	
+	else
+		return λ
+	end
+end
